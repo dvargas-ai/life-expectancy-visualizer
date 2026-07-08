@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Cuántos años vive el mundo? · Esperanza de vida 2000–2015</title>
+<meta name="description" content="Visualizador interactivo de la esperanza de vida mundial (OMS, 2000–2015). Práctica 1 · ESTG1036 Estadística I · ESPOL.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<nav class="nav" aria-label="Navegación principal">
+  <div class="wrap nav-in">
+    <a class="brand" href="#inicio">ESPERANZA<b>·</b>DE<b>·</b>VIDA</a>
+    <div class="nav-links" id="navlinks">
+      <a href="#problema">Problema</a>
+      <a href="#datos">Datos</a>
+      <a href="#preparacion">Preparación</a>
+      <a href="#visualizador">Visualizador</a>
+      <a href="#hallazgos">Hallazgos</a>
+      <a href="#conclusiones">Conclusiones</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">ESTG1036 · Estadística I · Práctica 1 · I Semestre 2026</div>
+        <h1>El mundo ganó años de vida. Pero <em>no los repartió</em> por igual.</h1>
+        <p class="dek">Un recorrido interactivo por la esperanza de vida de <b>183 países</b> entre
+        2000 y 2015, con datos del Observatorio Mundial de la Salud (OMS). Mueve el año, compara
+        grupos y descubre qué cuenta la estadística descriptiva — incluso sobre la calidad de los
+        propios datos.</p>
+      </div>
+      <div class="hero-stat rv">
+        <div class="hs-label">Mediana mundial · 2015</div>
+        <div class="hs-num" id="hero-num">73.9<small> años</small></div>
+        <div class="hs-chips">
+          <span class="chip up">▲ +2.9 años vs. 2000</span>
+          <span class="chip gap">brecha desarrollado − en desarrollo: 10.0</span>
+        </div>
+        <svg id="spark" viewBox="0 0 320 64" preserveAspectRatio="none" aria-label="Evolución de la mediana mundial 2000 a 2015"></svg>
+        <div class="hs-label" style="margin-top:6px">mediana mundial, año por año (2000 → 2015)</div>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <span>FUENTE <b>OMS · GHO / ONU (vía Kaggle)</b></span>
+      <span>REGISTROS <b class="num">2 928</b></span>
+      <span>PAÍSES <b class="num">183</b></span>
+      <span>PERÍODO <b class="num">2000–2015</b></span>
+      <span>VARIABLES <b class="num">22</b></span>
+    </div>
+  </div>
+</header>
+<main>
+<!-- ============ REQUISITO 1: PROBLEMA ============ -->
+<section class="sec" id="problema">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisito 1 · Presentación del problema</div>
+      <h2>¿Cuántos años vive el mundo… y por qué unos viven tanto más que otros?</h2>
+      <p class="lead">La <b>esperanza de vida al nacer</b> es el indicador que mejor resume, en un
+      solo número, la salud de un país: condensa mortalidad infantil, enfermedades, conflictos,
+      acceso a servicios médicos y condiciones de vida. Por eso la usan la OMS, la ONU y los
+      gobiernos para medir desarrollo humano.</p>
+    </div>
+    <div class="grid">
+      <div class="card s4 rv">
+        <div class="badge">Pregunta 1</div>
+        <h3>¿Cómo se distribuye?</h3>
+        <p class="sub">¿La mayoría de los países vive parecido, o hay una cola de países rezagados
+        que arrastra el promedio mundial?</p>
+      </div>
+      <div class="card s4 rv">
+        <div class="badge">Pregunta 2</div>
+        <h3>¿Cuánto pesa el desarrollo?</h3>
+        <p class="sub">¿Qué distancia separa a los países desarrollados de los que están en
+        desarrollo, y esa brecha se cierra con el tiempo?</p>
+      </div>
+      <div class="card s4 rv">
+        <div class="badge">Pregunta 3</div>
+        <h3>¿Qué acompaña a la longevidad?</h3>
+        <p class="sub">¿Los países donde se estudia más también viven más? ¿Qué tan fuerte es esa
+        asociación y cómo se interpreta sin caer en "correlación = causa"?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REQUISITO 2: DATOS ============ -->
+<section class="sec" id="datos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisito 2 · Descripción de la base de datos</div>
+      <h2>La base: <em>Life Expectancy (WHO)</em></h2>
+      <p class="lead">Base de libre acceso publicada en <b>Kaggle</b>, que compila indicadores del
+      <b>Observatorio Mundial de la Salud (GHO) de la OMS</b> y datos socioeconómicos de la
+      <b>ONU</b>. Cada fila es un país en un año: una estructura de datos de panel ideal para
+      comparar países y seguir su evolución.</p>
+    </div>
+    <div class="grid" style="margin-bottom:18px">
+      <div class="card s3 rv"><div class="hs-label">Observaciones</div>
+        <div class="hs-num" style="font-size:2.5rem">2 938</div>
+        <p class="sub">filas originales (país × año)</p></div>
+      <div class="card s3 rv"><div class="hs-label">Variables</div>
+        <div class="hs-num" style="font-size:2.5rem">22</div>
+        <p class="sub">columnas: sanitarias, económicas y educativas</p></div>
+      <div class="card s3 rv"><div class="hs-label">Países</div>
+        <div class="hs-num" style="font-size:2.5rem">193</div>
+        <p class="sub">183 tras la preparación de datos</p></div>
+      <div class="card s3 rv"><div class="hs-label">Años</div>
+        <div class="hs-num" style="font-size:2.5rem">16</div>
+        <p class="sub">de 2000 a 2015, sin huecos por año</p></div>
+    </div>
+    <div class="card rv">
+      <div class="badge">Variables usadas en el análisis · clasificadas según la Unidad 1</div>
+      <div style="overflow-x:auto">
+      <table class="vtab">
+        <thead><tr><th>Variable</th><th>Tipo de variable</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><code>Country</code></td><td><span class="tt nom">Cualitativa nominal</span></td>
+            <td>País al que pertenece el registro (183 categorías tras la limpieza).</td></tr>
+          <tr><td><code>Year</code></td><td><span class="tt dis">Cuantitativa discreta</span></td>
+            <td>Año calendario del registro (2000, 2001, …, 2015).</td></tr>
+          <tr><td><code>Status</code></td><td><span class="tt nom">Cualitativa nominal</span></td>
+            <td>Clasificación del país: <b>Desarrollado</b> (32) o <b>En desarrollo</b> (151).</td></tr>
+          <tr><td><code>Life expectancy</code></td><td><span class="tt con">Cuantitativa continua</span></td>
+            <td><b>Variable central:</b> esperanza de vida al nacer, en años.</td></tr>
+          <tr><td><code>Schooling</code></td><td><span class="tt con">Cuantitativa continua</span></td>
+            <td>Años promedio de escolaridad de la población.</td></tr>
+          <tr><td><code>Región</code> ★</td><td><span class="tt nom">Cualitativa nominal</span></td>
+            <td><b>Creada:</b> continente del país (África, América, Asia, Europa, Oceanía).</td></tr>
+          <tr><td><code>Nivel</code> ★</td><td><span class="tt ord">Cualitativa ordinal</span></td>
+            <td><b>Creada:</b> esperanza de vida por tramos — Baja (&lt;60) &lt; Media (60–70)
+            &lt; Alta (70–80) &lt; Muy alta (≥80).</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="nota">★ Variables construidas durante la preparación de datos. Las 22 columnas
+      originales incluyen además mortalidad adulta e infantil, vacunación (hepatitis B, polio,
+      difteria), gasto en salud, PIB, población e IMC, entre otras; el análisis se concentra en
+      las variables con mejor cobertura y calidad (ver Preparación, paso 4).</p>
+    </div>
+  </div>
+</section>
+<!-- ============ REQUISITO 3: PREPARACIÓN ============ -->
+<section class="sec" id="preparacion">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisito 3 · Preparación de los datos</div>
+      <h2>Antes de graficar: limpiar, transformar y <em>desconfiar</em></h2>
+      <p class="lead">Todo el proceso se realizó en <b>Python (pandas / NumPy)</b> y quedó
+      documentado paso a paso. La regla que seguimos: cada decisión debe tener <b>evidencia</b> y
+      ser <b>reproducible</b>.</p>
+    </div>
+    <div class="card rv">
+      <ol class="steps">
+        <li>
+          <h3>Normalización de nombres de columnas</h3>
+          <p>El archivo original trae encabezados con espacios ocultos — por ejemplo
+          <code>'Life expectancy '</code> y <code>' BMI '</code> — que rompen cualquier consulta.
+          Se eliminaron los espacios al inicio y final de las 22 columnas.</p>
+        </li>
+        <li>
+          <h3>Registros sin la variable central</h3>
+          <p><b>10 filas</b> no tienen valor de esperanza de vida. Corresponden a 10 microestados
+          (Mónaco, San Marino, Nauru, Tuvalu, Niue, Palaos, Islas Cook, Islas Marshall, Dominica
+          y San Cristóbal y Nieves) con <b>un solo registro</b> cada uno. Se eliminaron:
+          <span class="num">2 938 → 2 928</span> filas y <span class="num">193 → 183</span> países,
+          todos con serie completa 2000–2015.</p>
+        </li>
+        <li>
+          <h3>Valores imposibles convertidos a faltantes</h3>
+          <p><code>Schooling</code> registra <b>26 ceros</b> (p. ej., Bosnia y Herzegovina,
+          Montenegro, Turkmenistán): ningún país tiene 0 años promedio de escolaridad, así que se
+          trataron como dato faltante. Con ello, la variable queda con 186 faltantes; el gráfico
+          de dispersión indica en pantalla cuántos países entran en cada año.</p>
+        </li>
+        <li>
+          <h3>Variable descartada por calidad: IMC</h3>
+          <p>La columna <code>BMI</code> tiene rango <span class="num">[1.0, 87.3]</span> — un IMC
+          nacional promedio plausible está entre ~19 y ~32, y un IMC de 1 o de 87 es incompatible
+          con la vida. Al no poder distinguir qué valores son válidos, la variable se
+          <b>excluyó completa</b> del análisis.</p>
+        </li>
+        <li>
+          <h3>Variables creadas: Región y Nivel</h3>
+          <p>Se construyó <code>Región</code> (continente) con la librería
+          <code>country_converter</code> — los 183 países mapearon sin errores: África 54,
+          Asia 47, Europa 39, América 33, Oceanía 10 — y <code>Nivel</code>, una versión
+          <b>ordinal</b> de la esperanza de vida en 4 tramos, para poder cruzarla con Región.</p>
+        </li>
+        <li>
+          <h3>Verificación de consistencia (y una sorpresa)</h3>
+          <p>Siguiendo la Unidad 1 — <i>"al detectar una observación atípica, verifique si no es un
+          error tipográfico"</i> — auditamos los saltos de un año a otro dentro de cada país.
+          Aparecieron <b>56 registros</b> de países desarrollados con saltos de ±3 años o más que
+          no coinciden con las series oficiales: Francia marca <span class="num">89.0</span> en
+          2007–2008, Italia <span class="num">89.0</span> en 2004, Eslovenia
+          <span class="num">88.0</span> en 2015. <b>Decisión:</b> los valores se conservan tal
+          cual vienen de la fuente (no inventamos correcciones), pero los resúmenes usan la
+          <b>mediana y los cuartiles</b>, que son robustos frente a estos errores, y la limitación
+          queda señalada donde afecta la lectura.</p>
+        </li>
+      </ol>
+      <div class="verif"><span class="ic">✔</span><div>
+        <b>Doble verificación de cálculos.</b> Toda la estadística que muestra este visualizador se
+        calcula en el navegador y fue contrastada contra Python (pandas/NumPy):
+        <b>146 comprobaciones cruzadas idénticas</b>, incluyendo medianas, cuartiles con el método
+        de la Unidad 1 <span class="mq">\(x_{(p(n+1))}\)</span>, cercas del boxplot y la correlación de
+        Pearson.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ REQUISITOS 4 Y 5: VISUALIZADOR ============ -->
+<section class="sec" id="visualizador">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisitos 4 y 5 · Visualizaciones e interactividad</div>
+      <h2>El visualizador: siete miradas, un año a la vez</h2>
+      <p class="lead">Cada gráfico se eligió <b>según el tipo de variable</b> (la etiqueta de cada
+      tarjeta lo indica). Usa el <b>selector de año</b> para mover la fotografía anual, pasa el
+      cursor sobre cualquier elemento para ver el detalle, haz zoom arrastrando, y presiona
+      <b>▶</b> para ver la película completa 2000–2015.</p>
+    </div>
+
+    <div class="scrub" role="group" aria-label="Selector de año">
+      <div class="yr-box">
+        <div class="hs-label">Año</div>
+        <div id="yr-num">2015</div>
+      </div>
+      <div class="slider-wrap">
+        <input type="range" id="yr-range" min="2000" max="2015" step="1" value="2015"
+          aria-label="Seleccionar año entre 2000 y 2015">
+        <div class="slider-labels"><span>2000</span><span>2005</span><span>2010</span><span>2015</span></div>
+      </div>
+      <button class="btn-play" id="btn-play" aria-label="Reproducir animación de años">▶</button>
+    </div>
+
+    <div class="kpis rv">
+      <div class="kpi acc"><div class="hs-label">Mediana mundial</div>
+        <div class="v num" id="k-med">—</div><div class="s" id="k-med-sub"></div></div>
+      <div class="kpi"><div class="hs-label">Promedio mundial</div>
+        <div class="v num" id="k-mean">—</div><div class="s" id="k-mean-sub"></div></div>
+      <div class="kpi"><div class="hs-label">Brecha desarrollado − en desarrollo</div>
+        <div class="v num" id="k-gap">—</div><div class="s">diferencia de medianas (años)</div></div>
+      <div class="kpi"><div class="hs-label">Escolaridad ↔ vida</div>
+        <div class="v num" id="k-r">—</div><div class="s" id="k-r-sub">coeficiente r de Pearson</div></div>
+    </div>
+
+    <div class="grid">
+      <div class="card s6 rv">
+        <div class="badge">V1 · cuantitativa continua → histograma</div>
+        <h3>¿Cómo se reparte la esperanza de vida?</h3>
+        <p class="sub">Distribución de los 183 países en el año seleccionado. Intervalos construidos
+        con la regla de la Unidad 1: <span class="mq">\(k=\lceil\sqrt{n}\,\rceil\)</span> clases de
+        amplitud <span class="mq">\(A=(\text{máx}-\text{mín})/k\)</span>.</p>
+        <div class="chart" id="ch-hist"></div>
+        <p class="nota"><b>Lectura:</b> la cola izquierda larga delata a un grupo de países muy
+        rezagados; por eso el <b>promedio queda debajo de la mediana</b> (asimetría a la izquierda).</p>
+      </div>
+
+      <div class="card s6 rv">
+        <div class="badge">V2 · continua × nominal → diagrama de caja</div>
+        <h3>Desarrollados vs. en desarrollo</h3>
+        <p class="sub">Cajas con el método del curso: cuartiles <span class="mq">\(x_{(p(n+1))}\)</span>,
+        cercas <span class="mq">\(LI=\max\{x_{(1)},\,Q_1-1.5\,RI\}\)</span> y
+        <span class="mq">\(LS=\min\{x_{(n)},\,Q_3+1.5\,RI\}\)</span>. Los puntos son atípicos, con nombre.</p>
+        <div class="chart" id="ch-box"></div>
+        <p class="nota" id="box-note"></p>
+      </div>
+
+      <div class="card rv">
+        <div class="card-head">
+          <div>
+            <div class="badge">V3 · ranking por país → barras horizontales</div>
+            <h3>Los diez de arriba y los diez de abajo</h3>
+            <p class="sub">Extremos del año seleccionado, coloreados por estatus.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Alternar ranking">
+            <button id="btn-top" class="on">Top 10</button>
+            <button id="btn-bottom">Bottom 10</button>
+          </div>
+        </div>
+        <div class="chart" id="ch-rank"></div>
+        <p class="nota">⚠ <b>Limitación de la fuente:</b> algunos máximos de 2012–2015 (p. ej.,
+        Eslovenia 88.0 o Dinamarca 86.0) superan los registros oficiales de la OMS; son los errores
+        detectados en la <a href="#preparacion">preparación de datos</a> (paso 06) y se muestran sin
+        alterar. El extremo inferior sí es consistente con las cifras oficiales.</p>
+      </div>
+
+      <div class="card rv">
+        <div class="badge">V4 · continua × continua → dispersión + correlación</div>
+        <h3>¿Estudiar más acompaña a vivir más?</h3>
+        <p class="sub">Cada punto es un país: años de escolaridad (eje x) contra esperanza de vida
+        (eje y). El coeficiente <span class="mq">\(r\)</span> de Pearson se recalcula con el año.
+        Ecuador aparece marcado con una estrella.</p>
+        <div class="chart tall" id="ch-scatter"></div>
+        <p class="nota"><b>Ojo:</b> una correlación fuerte y positiva <b>no</b> prueba causalidad —
+        educación, ingreso y salud avanzan juntos; el gráfico describe la asociación, no su causa.</p>
+      </div>
+
+      <div class="card s6 rv">
+        <div class="badge rosa">V5 · nominal × ordinal → barras apiladas 100 %</div>
+        <h3>Composición por región</h3>
+        <p class="sub">Porcentaje de países de cada región en cada nivel de esperanza de vida
+        (proporciones condicionales por región).</p>
+        <div class="chart" id="ch-stack"></div>
+        <p class="nota"><b>Lectura:</b> compara la franja roja (<b>Baja &lt;60</b>) entre regiones:
+        en 2015 solo África la conserva.</p>
+      </div>
+
+      <div class="card s6 rv">
+        <div class="badge rosa">V6 · medidas de posición → tabla resumen</div>
+        <h3>Promedio y cuartiles por región</h3>
+        <p class="sub">Ordenada por mediana (Q2), de mayor a menor, para el año seleccionado.</p>
+        <div style="overflow-x:auto;min-height:300px" id="tbl-region"></div>
+        <p class="nota">Cuartiles con el método de la Unidad 1
+        (<span class="mq">\(Q_p = x_{(p(n+1))}\)</span> con interpolación). El promedio de África queda
+        <b>por encima</b> de su mediana algunos años: la media es sensible a los países que van
+        saliendo del grupo bajo.</p>
+      </div>
+
+      <div class="card rv">
+        <div class="badge">V7 · evolución temporal → líneas (medianas anuales)</div>
+        <h3>La película completa, 2000–2015</h3>
+        <p class="sub">Mediana anual del mundo y de cada grupo. Usamos la <b>mediana</b> — no el
+        promedio — porque es robusta frente a los valores anómalos de la fuente. La guía vertical
+        sigue al año seleccionado.</p>
+        <div class="chart" id="ch-line"></div>
+        <p class="nota"><b>Lectura:</b> ambas curvas suben, pero casi en paralelo: el mundo mejora
+        y, aun así, la distancia entre grupos apenas se cierra en 16 años.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ============ REQUISITO 6: HALLAZGOS ============ -->
+<section class="sec" id="hallazgos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisito 6 · Interpretación y hallazgos</div>
+      <h2>Lo que cuentan los datos</h2>
+      <p class="lead">Seis hallazgos con sus cifras — todas calculadas con los métodos de la
+      Unidad 1 y verificadas por partida doble.</p>
+    </div>
+    <div class="grid">
+      <div class="card s6 find rv"><div class="fn">01</div>
+        <h3>El mundo ganó casi tres años de vida</h3>
+        <p>La mediana mundial pasó de <b class="num">71.0</b> años en 2000 a
+        <b class="num">73.9</b> en 2015. La mejora es sostenida: no hay un solo retroceso global
+        en la serie de medianas.</p></div>
+      <div class="card s6 find rv"><div class="fn">02</div>
+        <h3>…pero la brecha sigue siendo de ~10 años</h3>
+        <p>En 2015, la mediana de los países desarrollados fue <b class="num">81.55</b> frente a
+        <b class="num">71.6</b> de los países en desarrollo: <b class="num">9.95</b> años de
+        diferencia. Nacer en un lado u otro "vale" una década de vida.</p></div>
+      <div class="card s6 find rv"><div class="fn">03</div>
+        <h3>El promedio engaña: la distribución es asimétrica</h3>
+        <p>En 2015 la media mundial (<b class="num">71.6</b>) queda por debajo de la mediana
+        (<b class="num">73.9</b>): asimetría <b>a la izquierda</b>. Una cola de países muy
+        rezagados arrastra el promedio — por eso este visualizador reporta medianas.</p></div>
+      <div class="card s6 find rv"><div class="fn">04</div>
+        <h3>Educación y vida caminan juntas</h3>
+        <p>La correlación entre años de escolaridad y esperanza de vida en 2015 es
+        <b class="num">r = 0.818</b> (n = 173): fuerte, positiva y lineal. Se repite alta en todos
+        los años del período. Asociación clara — <b>no</b> prueba de causa.</p></div>
+      <div class="card s6 find rv"><div class="fn">05</div>
+        <h3>La geografía concentra el rezago</h3>
+        <p>Los <b class="num">21</b> países con nivel <b>Bajo (&lt;60 años)</b> en 2015 están
+        <b>todos en África</b>. La mediana africana (<b class="num">62.05</b>) queda a
+        <b class="num">18.95</b> años de la europea (<b class="num">81.0</b>).</p></div>
+      <div class="card s6 find rv"><div class="fn">06</div>
+        <h3>El boxplot también es un detector de anomalías</h3>
+        <p>Explora <b>2010</b>: Haití cae a <b class="num">36.3</b> años — el terremoto — y el
+        diagrama de caja lo aísla como atípico extremo al instante. La misma lógica de "desconfiar
+        del punto raro" nos llevó a descubrir los errores de la fuente en países desarrollados
+        (Francia <span class="num">89.0</span> en 2007–08).</p></div>
+      <div class="card find ec rv"><div class="fn" style="color:#a3e635">EC</div>
+        <h3>¿Y Ecuador?</h3>
+        <p>Ecuador pasó de <b class="num">72.8</b> años (2000) a <b class="num">76.2</b> (2015):
+        <b class="num">+3.4</b> años, más que la ganancia mundial. Queda por encima de la mediana
+        del mundo (<span class="num">73.9</span>) y de la de América (<span class="num">75.2</span>),
+        con una escolaridad que subió de <span class="num">12.4</span> a <span class="num">14.0</span>
+        años. Búscalo como ★ en el gráfico de dispersión.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REQUISITO 7: CONCLUSIONES ============ -->
+<section class="sec" id="conclusiones">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow ind">Requisito 7 · Conclusiones</div>
+      <h2>Tres conclusiones y una lección de método</h2>
+    </div>
+    <div class="card rv" style="max-width:78ch">
+      <p style="margin-bottom:14px"><b>1 · El progreso es real pero desigual.</b> Entre 2000 y 2015
+      el mundo ganó esperanza de vida de forma sostenida; sin embargo, las curvas de países
+      desarrollados y en desarrollo avanzan casi en paralelo: crecer no ha bastado para converger,
+      y la brecha se mantiene cerca de los diez años.</p>
+      <p style="margin-bottom:14px"><b>2 · El rezago tiene dirección.</b> La distribución mundial es
+      asimétrica a la izquierda y esa cola está geográficamente concentrada: en 2015 todos los
+      países con esperanza de vida menor a 60 años son africanos. Cualquier política global de
+      salud es, en la práctica, una política sobre esa cola.</p>
+      <p style="margin-bottom:14px"><b>3 · La educación es la compañera más visible de la
+      longevidad.</b> La asociación escolaridad–esperanza de vida es fuerte y estable
+      (r ≈ 0.8 todos los años). No podemos afirmar causalidad con datos descriptivos, pero sí que
+      donde se estudia más, se vive más — una regularidad que merece análisis inferencial en
+      unidades posteriores del curso.</p>
+      <p><b>4 · Lección de método.</b> La estadística descriptiva no solo resume: <b>audita</b>.
+      Detectar el IMC imposible, los ceros de escolaridad y los saltos ficticios de la fuente fue
+      tan importante como cualquier gráfico — y eligió por nosotros las herramientas correctas
+      (mediana y cuartiles, robustos, en lugar del promedio).</p>
+    </div>
+
+    <div class="sec-head rv" style="margin:36px 0 16px">
+      <div class="eyebrow ind">Anexo · Métodos de la Unidad 1</div>
+      <h3 style="font-size:1.35rem">Cómo se calcula cada número</h3>
+      <p class="lead" style="margin-top:6px">Todas las medidas siguen las fórmulas del curso, para
+      que el cálculo sea transparente y reproducible.</p>
+    </div>
+    <div class="formulas rv">
+      <div class="fcard">
+        <div class="flab">Cuartiles · posición</div>
+        <div class="feq">\[ Q_p = x_{\left(p\,(n+1)\right)} \]</div>
+        <p class="fnote">Con interpolación \( x_{(i.a)} = x_{(i)} + 0.a\,\big(x_{(i+1)} - x_{(i)}\big) \).
+        La mediana es \( Q_{0.5} \).</p>
+      </div>
+      <div class="fcard">
+        <div class="flab">Rango intercuartil</div>
+        <div class="feq">\[ RI = Q_3 - Q_1 \]</div>
+        <p class="fnote">Mide la dispersión del 50 % central de los datos.</p>
+      </div>
+      <div class="fcard">
+        <div class="flab">Cercas del diagrama de caja</div>
+        <div class="feq">\[ LI = \max\{\,x_{(1)},\; Q_1 - 1.5\,RI\,\} \]\[ LS = \min\{\,x_{(n)},\; Q_3 + 1.5\,RI\,\} \]</div>
+        <p class="fnote">Es atípico todo valor fuera de \( [\,Q_1 - 1.5\,RI,\; Q_3 + 1.5\,RI\,] \).</p>
+      </div>
+      <div class="fcard">
+        <div class="flab">Histograma</div>
+        <div class="feq">\[ k = \lceil \sqrt{n}\, \rceil \qquad A = \dfrac{x_{(n)} - x_{(1)}}{k} \]</div>
+        <p class="fnote">\( k \) clases de igual amplitud \( A \) (redondeada a 0.1 por exceso).</p>
+      </div>
+      <div class="fcard wide">
+        <div class="flab">Coeficiente de correlación lineal de Pearson</div>
+        <div class="feq">\[ r = \frac{\displaystyle\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\displaystyle\sum_{i=1}^{n}(x_i-\bar{x})^2}\;\sqrt{\displaystyle\sum_{i=1}^{n}(y_i-\bar{y})^2}} \]</div>
+        <p class="fnote">Varía entre \( -1 \) y \( 1 \); un valor cercano a \( 1 \) indica asociación
+        lineal positiva fuerte — como la de escolaridad y esperanza de vida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>Práctica 1 · Visualizador interactivo</h4>
+        <p><b>ESTG1036 · Estadística I</b><br>Profesora Katherine Loor Valeriano<br>
+        ESPOL · I Semestre 2026</p>
+      </div>
+      <div>
+        <h4>Integrantes</h4>
+        <ul>
+          <li>Damian Vargas</li>
+          <li>Frank Piguabe</li>
+          <li>[Integrante 3]</li>
+          <li>[Integrante 4]</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Fuente y herramientas</h4>
+        <p><b>Datos:</b> Life Expectancy (WHO) — Kaggle; compila OMS·GHO y ONU. 2 938 registros
+        originales, 183 países analizados, 2000–2015.<br>
+        <b>Construcción:</b> HTML + CSS + JavaScript con Plotly.js; preparación y verificación de
+        cálculos en Python (pandas / NumPy).</p>
+      </div>
+    </div>
+    <p class="fine">Los valores se muestran tal cual provienen de la fuente; las inconsistencias
+    detectadas (paso 06 de Preparación) se conservan y se señalan como limitación. Cuartiles y
+    medianas con el método x₍p(n+1)₎ de la Unidad 1 · Decimales con punto.</p>
+  </div>
+</footer>
+
+<!-- Datos -> funciones -> app, en este orden (scripts clasicos) -->
+  <script src="js/data.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]});"></script>
+</body>
+</html>
