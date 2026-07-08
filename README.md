@@ -1,158 +1,125 @@
-# ¿Cuántos años vive el mundo? · Visualizador de esperanza de vida (2000–2015)
+# ¿Cuántos años vive el mundo?
 
-> Visualizador **interactivo** de la esperanza de vida al nacer de **183 países**
-> entre **2000 y 2015**, con datos de la **OMS (GHO) y la ONU**. Práctica 1 de
-> **ESTG1036 · Estadística I · ESPOL · I Semestre 2026**.
+Un visualizador interactivo para explorar la esperanza de vida al nacer de 183 países entre 2000 y 2015. Mueves un año, comparas grupos, pasas el cursor sobre cualquier punto y los datos van contando su historia: quién vive más, cuánto pesa el desarrollo y qué acompaña a una vida larga.
 
-Un recorrido guiado que convierte una base de datos real en una herramienta de
-exploración: mueves el año, comparas grupos, pasas el cursor sobre cualquier
-elemento y descubres qué cuenta la estadística descriptiva —incluso sobre la
-**calidad de los propios datos**—. Está pensado para que **cualquier persona**,
-con o sin formación en estadística, entienda los hallazgos de un vistazo.
+👉 **Míralo funcionando:** https://dvargas-ai.github.io/proyecto-estadistica/
 
-🔗 **Sitio en vivo:** https://dvargas-ai.github.io/proyecto-estadistica/
+![Estadística](https://img.shields.io/badge/Estad%C3%ADstica-descriptiva-4c9aff) ![Hecho con](https://img.shields.io/badge/Hecho%20con-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-f9a03c) ![Datos](https://img.shields.io/badge/Datos-OMS%20%C2%B7%20ONU-brightgreen)
 
----
+## Contenido
 
-## Tabla de contenido
+- [De qué va esto](#de-qué-va-esto)
+- [El problema que quería resolver](#el-problema-que-quería-resolver)
+- [Qué encontrarás dentro](#qué-encontrarás-dentro)
+- [Cómo usarlo](#cómo-usarlo)
+- [Los datos](#los-datos)
+- [Métodos](#métodos)
+- [Qué aprendí haciéndolo](#qué-aprendí-haciéndolo)
+- [Cómo está armado](#cómo-está-armado)
+- [Quiénes lo hicimos](#quiénes-lo-hicimos)
 
-- [Qué incluye](#qué-incluye)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Cómo verlo en local](#cómo-verlo-en-local)
-- [Datos y preparación](#datos-y-preparación)
-- [Métodos (Unidad 1)](#métodos-unidad-1)
-- [Dónde cambiar cosas](#dónde-cambiar-cosas)
-- [Integrantes](#integrantes)
-- [Créditos y fuente](#créditos-y-fuente)
+## De qué va esto
 
-## Qué incluye
+La esperanza de vida al nacer es uno de esos números que dicen muchísimo con muy poco: en una sola cifra resume mortalidad infantil, enfermedades, conflictos, acceso a salud y calidad de vida. Es el indicador que usan la OMS y la ONU para hablar de desarrollo humano.
 
-El visualizador cubre los siete requisitos de la práctica en una sola página:
+Este proyecto toma una base real con esa información y la convierte en algo que se puede *explorar*, no solo leer. En lugar de entregar una tabla o un PDF con gráficos estáticos, quería que cualquiera pudiera meterse en los datos, cambiar el año, comparar regiones y sacar sus propias conclusiones. Y que se entienda igual si sabes estadística o si es la primera vez que ves un diagrama de caja.
 
-| # | Requisito | Cómo se resuelve |
-| :-: | --- | --- |
-| 1 | Presentación del problema | Tres preguntas guía sobre distribución, brecha y longevidad |
-| 2 | Descripción de la base | Ficha de la base + tabla de variables clasificadas según la Unidad 1 |
-| 3 | Preparación de los datos | 6 pasos de limpieza documentados y reproducibles en Python |
-| 4 | Visualizaciones | Siete gráficos elegidos según el tipo de variable |
-| 5 | Interactividad | Selector de año, animación ▶ 2000→2015, hover, zoom y toggles |
-| 6 | Interpretación | Seis hallazgos con cifras (incluye un vistazo a Ecuador 🇪🇨) |
-| 7 | Conclusiones | Tres conclusiones + una lección de método, con anexo de fórmulas |
+Nació como la primera práctica de **Estadística I** (PAO I, 2026), pero lo dejé aquí porque me terminó gustando cómo quedó y creo que se sostiene solo.
 
-Las siete visualizaciones (cada una según el tipo de variable):
+## El problema que quería resolver
 
-- **Histograma** — distribución de la esperanza de vida (k = ⌈√n⌉ clases).
-- **Diagrama de caja** — desarrollados vs. en desarrollo, con atípicos nombrados.
-- **Barras horizontales** — ranking Top 10 / Bottom 10 por país.
-- **Dispersión + correlación** — escolaridad × esperanza de vida (r de Pearson).
-- **Barras apiladas 100 %** — composición por región y nivel.
+Los datos de salud casi siempre llegan en hojas de cálculo enormes que nadie tiene ganas de abrir. La información está ahí, pero no *se ve*. La idea era darle la vuelta a eso y responder tres preguntas de forma visual:
+
+- **¿Cómo se reparte la esperanza de vida en el mundo?** ¿Casi todos viven parecido, o hay una cola de países rezagados que jala el promedio hacia abajo?
+- **¿Cuánto pesa el nivel de desarrollo?** ¿Qué distancia hay entre los países desarrollados y los que están en desarrollo, y esa brecha se cierra con los años?
+- **¿Qué acompaña a vivir más?** ¿Los países donde se estudia más también viven más, y qué tan fuerte es esa relación?
+
+## Qué encontrarás dentro
+
+Todo pasa en una sola página, y el corazón son siete gráficos, cada uno elegido según el tipo de variable que muestra:
+
+- **Histograma** — cómo se distribuye la esperanza de vida en el año que elijas.
+- **Diagrama de caja** — países desarrollados vs. en desarrollo, con los atípicos señalados por nombre.
+- **Barras horizontales** — el ranking de los 10 de arriba y los 10 de abajo.
+- **Dispersión con correlación** — años de escolaridad frente a esperanza de vida, con el coeficiente de Pearson recalculándose por año.
+- **Barras apiladas al 100 %** — cómo se compone cada región según su nivel de vida.
 - **Tabla resumen** — promedio y cuartiles por región.
-- **Líneas** — evolución de las medianas anuales 2000–2015.
+- **Líneas** — la evolución de las medianas año por año, 2000–2015.
 
-Es un sitio estático (HTML + CSS + JavaScript). No necesita servidor ni
-compilación: se abre directamente en el navegador.
+Además hay un contador de indicadores clave (mediana mundial, brecha entre grupos, correlación), interpretaciones escritas para cada gráfico, seis hallazgos con sus cifras y un pequeño anexo con las fórmulas por si quieres ver cómo se calcula cada cosa.
 
-## Estructura del proyecto
+## Cómo usarlo
+
+No hace falta instalar nada. Es un sitio estático: entras al enlace de arriba y ya está.
+
+- Usa el **selector de año** para moverte por el tiempo, o dale a **▶** para ver la animación completa de 2000 a 2015.
+- **Pasa el cursor** sobre cualquier barra, punto o caja para ver el detalle.
+- **Arrastra** dentro de un gráfico para hacer zoom.
+
+Si prefieres abrirlo en tu máquina, basta con descargar el repo y abrir `index.html` en el navegador. Los gráficos (Plotly) y las fórmulas (KaTeX) se cargan por internet, así que necesitas conexión la primera vez; si algún gráfico no aparece, casi siempre es eso.
+
+## Los datos
+
+Parten de *Life Expectancy (WHO)*, una base de libre acceso publicada en Kaggle que junta indicadores del Observatorio Mundial de la Salud (OMS) y datos socioeconómicos de la ONU. Cada fila es un país en un año concreto. En bruto son 2 938 filas, 22 columnas y 193 países.
+
+Antes de graficar nada, hubo que limpiarlos y, sobre todo, desconfiar de ellos. Todo el proceso está hecho en Python (pandas / NumPy) y quedó documentado paso a paso:
+
+1. Quité los espacios ocultos en los nombres de las columnas (venían cosas como `"Life expectancy "`).
+2. Eliminé 10 microestados que no tenían el dato central de esperanza de vida (quedaron 183 países con serie completa).
+3. Traté como faltantes los ceros imposibles de escolaridad (ningún país tiene 0 años promedio de estudio).
+4. Descarté la columna de IMC: su rango `[1.0, 87.3]` era incompatible con la realidad.
+5. Construí dos variables nuevas, **Región** (continente) y **Nivel** (tramos de esperanza de vida).
+6. Audité los saltos raros de un año a otro y encontré errores en la propia fuente (Francia marcando 89 años en 2007, por ejemplo).
+
+Ese último paso terminó siendo clave: en vez de "arreglar" los datos inventando valores, los dejé tal cual vienen y usé mediana y cuartiles para los resúmenes, que aguantan mucho mejor esos valores anómalos.
+
+## Métodos
+
+Todos los estadísticos se calculan en el propio navegador para que el cálculo sea transparente, y los contrasté uno por uno contra Python: 146 comprobaciones cruzadas, todas idénticas. Lo que hay detrás:
+
+- **Cuartiles** por posición, con interpolación lineal.
+- **Rango intercuartil** para medir la dispersión del 50 % central.
+- **Cercas del diagrama de caja** para detectar valores atípicos.
+- **Correlación de Pearson** entre escolaridad y esperanza de vida.
+- **Regla de la raíz** para elegir el número de clases del histograma.
+
+## Qué aprendí haciéndolo
+
+Más de lo que esperaba, y no todo era estadística:
+
+- **Limpiar datos es la mitad del trabajo (o más).** Los gráficos bonitos vienen al final; antes hay que pelearse con espacios invisibles, ceros que mienten y columnas que hay que tirar a la basura.
+- **Desconfiar es parte del método.** Encontrar los errores de la propia OMS a punta de mirar saltos raros me enseñó que la estadística descriptiva no solo resume: también audita.
+- **La media engaña cuando la distribución es asimétrica.** Aprendí a preferir la mediana casi por reflejo, y a explicar *por qué*.
+- **Calcular las fórmulas a mano en JavaScript**, en vez de dejárselo a una librería, me obligó a entender de verdad cada medida en lugar de confiar en una caja negra.
+- **Correlación no es causa**, y decirlo bien (sin exagerar ni quedarse corto) es más difícil de lo que parece.
+
+## Cómo está armado
 
 ```
 proyecto-estadistica/
-├── index.html              # Página principal (estructura y secciones)
+├── index.html              # La página y todas sus secciones
 ├── css/
-│   └── styles.css          # Todos los estilos (paleta oscura en :root)
+│   └── styles.css          # Estilos (la paleta vive en :root)
 ├── js/
-│   ├── data.js             # Datos ya limpios (generados por el script de Python)
-│   ├── stats.js            # Funciones estadísticas (métodos de la Unidad 1)
-│   └── app.js              # Render de gráficos e interactividad (Plotly)
+│   ├── data.js             # Datos ya limpios, listos para graficar
+│   ├── stats.js            # Las fórmulas estadísticas, escritas a mano
+│   └── app.js              # Dibuja los gráficos y maneja la interacción
 ├── data/
-│   ├── Life_Expectancy_Data.csv   # Base original (fuente)
-│   └── clean.csv           # Base limpia (salida del script)
-├── scripts/
-│   └── preparar_datos.py   # Limpieza + generación de js/data.js (reproducible)
-└── README.md
+│   ├── Life_Expectancy_Data.csv   # La base original
+│   └── clean.csv           # La base ya limpia
+└── scripts/
+    └── preparar_datos.py   # El proceso de limpieza, reproducible
 ```
 
-Librerías externas (se cargan por CDN, requieren internet): **Plotly.js 2.27**
-para los gráficos y **KaTeX 0.16.9** para las fórmulas.
+Hecho con HTML, CSS y JavaScript puro. Los gráficos usan [Plotly.js](https://plotly.com/javascript/) y las fórmulas se renderizan con [KaTeX](https://katex.org/); la preparación de datos es Python con pandas y NumPy.
 
-## Cómo verlo en local
+## Quiénes lo hicimos
 
-Abrir `index.html` con doble clic (o arrastrarlo al navegador). Con conexión a
-internet, Plotly y KaTeX cargan solos y todo funciona.
+Proyecto en grupo para **Estadística I** (PAO I, 2026), con la profesora Katherine Loor Valeriano en ESPOL.
 
-> 💡 Si algún gráfico no aparece, casi siempre es falta de conexión (los CDN no
-> cargaron). Recarga con internet activo.
+| Integrante | Correo |
+| --- | --- |
+| Damian Vargas | jacvarga@espol.edu.ec |
+| Frank Piguabe | frapigua@espol.edu.ec |
 
-## Datos y preparación
-
-**Fuente:** Life Expectancy (WHO) (Kaggle), que compila indicadores de la OMS y
-la ONU. Base original: 2 938 filas × 22 variables, 193 países.
-
-El script `scripts/preparar_datos.py` reproduce los 6 pasos de limpieza
-documentados en el visualizador:
-
-1. Normalizar nombres de columnas (quitar espacios ocultos).
-2. Eliminar los 10 registros sin esperanza de vida (microestados).
-3. Tratar Schooling = 0 como dato faltante (imposible en la realidad).
-4. Descartar BMI por su rango imposible [1.0, 87.3].
-5. Crear las variables Región (continente) y Nivel (ordinal, 4 tramos).
-6. Auditar los saltos interanuales y documentarlos como limitación.
-
-Resultado: 2 928 filas, 183 países con serie completa 2000–2015. Para regenerar
-los datos:
-
-```bash
-pip install pandas numpy country_converter
-python scripts/preparar_datos.py
-```
-
-Esto vuelve a escribir `data/clean.csv` y `js/data.js`.
-
-> ⚠️ Las anomalías de la fuente (valores inflados en algunos países
-> desarrollados) se conservan sin alterar y se documentan como limitación; por
-> eso los resúmenes usan **mediana y cuartiles**, que son robustos frente a esos
-> errores.
-
-## Métodos (Unidad 1)
-
-Los estadísticos se calculan en el navegador (`js/stats.js`) con las fórmulas
-del curso, para que el cálculo sea transparente y reproducible:
-
-- Cuartiles por posición Q_p = x_(p(n+1)) con interpolación lineal.
-- Rango intercuartil RI = Q3 − Q1.
-- Cercas del diagrama de caja LI = máx(x₍₁₎, Q1 − 1.5·RI) y LS = mín(x₍ₙ₎, Q3 + 1.5·RI).
-- Coeficiente de correlación de Pearson r.
-- Regla del histograma k = ⌈√n⌉.
-
-Cada resultado fue verificado contra Python (pandas/NumPy): 146 comprobaciones
-cruzadas idénticas.
-
-## Dónde cambiar cosas
-
-- **Colores / apariencia:** solo las variables de `:root` al inicio de `css/styles.css` (fondo, acentos teal/ámbar/rosa, colores por región).
-- **Nombres de integrantes:** al final de `index.html`, en el `<footer>`.
-- **Textos, hallazgos, conclusiones:** directamente en `index.html`.
-- **Gráficos o interacción:** en `js/app.js` (cada visualización tiene su propia función render...).
-- **Datos:** no editar `js/data.js` a mano; volver a correr `scripts/preparar_datos.py`.
-
-## Integrantes
-
-Proyecto grupal de **ESTG1036 · Estadística I**. Grupo:
-
-| # | Nombre | Correo | Rol / aporte |
-| :-: | --- | --- | --- |
-| 1 | Damian Vargas | jacvarga@espol.edu.ec | por definir |
-| 2 | Frank Piguabe | frapigua@espol.edu.ec | por definir |
-| 3 | por completar | por completar | por definir |
-| 4 | por completar | por completar | por definir |
-
-Grupo en formación — se irán completando los integrantes restantes.
-
-Docente: Profesora Katherine Loor Valeriano · ESPOL · I Semestre 2026.
-
-## Créditos y fuente
-
-- **Datos:** Life Expectancy (WHO) — Kaggle; compila OMS · GHO y ONU. 2 938 registros originales, 183 países analizados, período 2000–2015.
-- **Construcción:** HTML + CSS + JavaScript con Plotly.js; fórmulas con KaTeX; preparación y verificación de cálculos en Python (pandas / NumPy).
-
-Los valores se muestran tal cual provienen de la fuente; las inconsistencias
-detectadas (paso 6 de la preparación) se conservan y se señalan como limitación.
+Los datos son de *Life Expectancy (WHO)* en Kaggle, que a su vez recopila cifras de la OMS y la ONU. Se muestran tal como vienen de la fuente; donde detectamos inconsistencias, lo dejamos anotado en lugar de maquillarlas.
