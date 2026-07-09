@@ -1,126 +1,127 @@
-# ¿Cuántos años vive el mundo?
+# How long does the world live?
 
-Un visualizador interactivo para explorar la esperanza de vida al nacer de 183 países entre 2000 y 2015. Mueves un año, comparas grupos, pasas el cursor sobre cualquier punto y los datos van contando su historia: quién vive más, cuánto pesa el desarrollo y qué acompaña a una vida larga.
+An interactive visualizer for exploring life expectancy at birth across 183 countries between 2000 and 2015. Move through the years, compare groups, hover over any point, and the data starts telling its story: who lives longer, how much development weighs in, and what tends to go hand in hand with a long life.
 
-👉 **Míralo funcionando:** https://dvargas-ai.github.io/life-expectancy-visualizer/
+👉 See it live: https://dvargas-ai.github.io/life-expectancy-visualizer/
 
-![Estadística](https://img.shields.io/badge/Estad%C3%ADstica-descriptiva-4c9aff) ![Hecho con](https://img.shields.io/badge/Hecho%20con-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-f9a03c) ![Datos](https://img.shields.io/badge/Datos-OMS%20%C2%B7%20ONU-brightgreen)
+![Statistics](https://img.shields.io/badge/Statistics-descriptive-4c9aff)
+![Built with](https://img.shields.io/badge/Built%20with-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-f9a03c)
+![Data](https://img.shields.io/badge/Data-WHO%20%C2%B7%20UN-brightgreen)
 
-## Contenido
+## Contents
 
-- [De qué va esto](#de-qué-va-esto)
-- [El problema que quería resolver](#el-problema-que-quería-resolver)
-- [Qué encontrarás dentro](#qué-encontrarás-dentro)
-- [Cómo usarlo](#cómo-usarlo)
-- [Los datos](#los-datos)
-- [Métodos](#métodos)
-- [Qué aprendí haciéndolo](#qué-aprendí-haciéndolo)
-- [Cómo está armado](#cómo-está-armado)
-- [Quiénes lo hicimos](#quiénes-lo-hicimos)
+- [What this is](#what-this-is)
+- [The problem I wanted to solve](#the-problem-i-wanted-to-solve)
+- [What's inside](#whats-inside)
+- [How to use it](#how-to-use-it)
+- [The data](#the-data)
+- [Methods](#methods)
+- [What I learned building it](#what-i-learned-building-it)
+- [How it's built](#how-its-built)
+- [Who made it](#who-made-it)
 
-## De qué va esto
+## What this is
 
-La esperanza de vida al nacer es uno de esos números que dicen muchísimo con muy poco: en una sola cifra resume mortalidad infantil, enfermedades, conflictos, acceso a salud y calidad de vida. Es el indicador que usan la OMS y la ONU para hablar de desarrollo humano.
+Life expectancy at birth is one of those numbers that says a lot with very little. A single figure wraps up child mortality, disease, conflict, access to healthcare, and overall quality of life. It's the indicator the WHO and the UN reach for when they talk about human development.
 
-Este proyecto toma una base real con esa información y la convierte en algo que se puede *explorar*, no solo leer. En lugar de entregar una tabla o un PDF con gráficos estáticos, quería que cualquiera pudiera meterse en los datos, cambiar el año, comparar regiones y sacar sus propias conclusiones. Y que se entienda igual si sabes estadística o si es la primera vez que ves un diagrama de caja.
+This project takes a real dataset carrying that information and turns it into something you can explore, not just read. Instead of handing over a table or a PDF full of static charts, I wanted anyone to be able to dig into the numbers, change the year, compare regions, and reach their own conclusions, whether you know statistics or you're seeing a box plot for the first time.
 
-Nació como la primera práctica de **Estadística I** (PAO I, 2026), pero lo dejé aquí porque me terminó gustando cómo quedó y creo que se sostiene solo.
+It started as the first assignment for Statistics I (PAO I, 2026), but I kept it here because I ended up liking how it turned out and I think it holds up on its own.
 
-## El problema que quería resolver
+## The problem I wanted to solve
 
-Los datos de salud casi siempre llegan en hojas de cálculo enormes que nadie tiene ganas de abrir. La información está ahí, pero no *se ve*. La idea era darle la vuelta a eso y responder tres preguntas de forma visual:
+Health data almost always arrives as huge spreadsheets nobody feels like opening. The information is there, but you can't see it. The idea was to flip that around and answer three questions visually:
+1. How is life expectancy spread across the world? Does almost everyone live to a similar age, or is there a tail of countries dragging the average down?
+2. How much does development level matter? How wide is the gap between developed and developing countries, and does it narrow over the years?
+3. What goes along with living longer? Do countries where people study more also live longer, and how strong is that link?
 
-- **¿Cómo se reparte la esperanza de vida en el mundo?** ¿Casi todos viven parecido, o hay una cola de países rezagados que jala el promedio hacia abajo?
-- **¿Cuánto pesa el nivel de desarrollo?** ¿Qué distancia hay entre los países desarrollados y los que están en desarrollo, y esa brecha se cierra con los años?
-- **¿Qué acompaña a vivir más?** ¿Los países donde se estudia más también viven más, y qué tan fuerte es esa relación?
+## What's inside
 
-## Qué encontrarás dentro
+Everything happens on a single page, and the heart of it is seven charts, each one picked to fit the kind of variable it shows:
 
-Todo pasa en una sola página, y el corazón son siete gráficos, cada uno elegido según el tipo de variable que muestra:
+- Histogram: how life expectancy is distributed in the year you pick.
+- Box plot: developed vs. developing countries, with outliers labeled by name.
+- Horizontal bars: the ranking of the top 10 and bottom 10.
+- Scatter with correlation: years of schooling against life expectancy, with Pearson's coefficient recalculated per year.
+- 100% stacked bars: how each region breaks down by living standard.
+- Summary table: mean and quartiles by region.
+- Line chart: how the medians evolve year by year, 2000 to 2015.
 
-- **Histograma** — cómo se distribuye la esperanza de vida en el año que elijas.
-- **Diagrama de caja** — países desarrollados vs. en desarrollo, con los atípicos señalados por nombre.
-- **Barras horizontales** — el ranking de los 10 de arriba y los 10 de abajo.
-- **Dispersión con correlación** — años de escolaridad frente a esperanza de vida, con el coeficiente de Pearson recalculándose por año.
-- **Barras apiladas al 100 %** — cómo se compone cada región según su nivel de vida.
-- **Tabla resumen** — promedio y cuartiles por región.
-- **Líneas** — la evolución de las medianas año por año, 2000–2015.
+There's also a counter of key indicators (world median, gap between groups, correlation), a written interpretation for each chart, six findings with their figures, and a short appendix with the formulas in case you want to see how each measure is calculated.
 
-Además hay un contador de indicadores clave (mediana mundial, brecha entre grupos, correlación), interpretaciones escritas para cada gráfico, seis hallazgos con sus cifras y un pequeño anexo con las fórmulas por si quieres ver cómo se calcula cada cosa.
+## How to use it
 
-## Cómo usarlo
+Nothing to install. It's a static site: open the link above and you're set.
 
-No hace falta instalar nada. Es un sitio estático: entras al enlace de arriba y ya está.
+- Use the year selector to move through time, or hit ▶ to watch the full 2000 to 2015 animation.
+- Hover over any bar, point, or box to see the detail.
+- Drag inside a chart to zoom.
 
-- Usa el **selector de año** para moverte por el tiempo, o dale a **▶** para ver la animación completa de 2000 a 2015.
-- **Pasa el cursor** sobre cualquier barra, punto o caja para ver el detalle.
-- **Arrastra** dentro de un gráfico para hacer zoom.
+If you'd rather run it locally, download the repo and open `index.html` in your browser. The charts (Plotly) and formulas (KaTeX) load over the internet, so you'll need a connection the first time. If a chart doesn't show up, that's almost always why.
 
-Si prefieres abrirlo en tu máquina, basta con descargar el repo y abrir `index.html` en el navegador. Los gráficos (Plotly) y las fórmulas (KaTeX) se cargan por internet, así que necesitas conexión la primera vez; si algún gráfico no aparece, casi siempre es eso.
+## The data
 
-## Los datos
+It comes from Life Expectancy (WHO), an open dataset published on Kaggle that combines indicators from the Global Health Observatory (WHO) and socioeconomic data from the UN. Each row is one country in one year. Raw, it's 2,938 rows, 22 columns, and 193 countries.
 
-Parten de *Life Expectancy (WHO)*, una base de libre acceso publicada en Kaggle que junta indicadores del Observatorio Mundial de la Salud (OMS) y datos socioeconómicos de la ONU. Cada fila es un país en un año concreto. En bruto son 2 938 filas, 22 columnas y 193 países.
+Before plotting anything, the data had to be cleaned and, above all, questioned. The whole process runs in Python (pandas / NumPy) and is documented step by step:
 
-Antes de graficar nada, hubo que limpiarlos y, sobre todo, desconfiar de ellos. Todo el proceso está hecho en Python (pandas / NumPy) y quedó documentado paso a paso:
+- Stripped the hidden whitespace from column names (things like `"Life expectancy "` were sneaking in).
+- Dropped 10 microstates that were missing the core life-expectancy value (leaving 183 countries with a complete series).
+- Treated the impossible schooling zeros as missing (no country averages 0 years of education).
+- Threw out the BMI column: its `[1.0, 87.3]` range didn't match reality.
+- Built two new variables, Region (continent) and Level (life-expectancy bands).
+- Audited the odd year-over-year jumps and found errors in the source itself (France showing 89 years in 2007, for instance).
 
-1. Quité los espacios ocultos en los nombres de las columnas (venían cosas como `"Life expectancy "`).
-2. Eliminé 10 microestados que no tenían el dato central de esperanza de vida (quedaron 183 países con serie completa).
-3. Traté como faltantes los ceros imposibles de escolaridad (ningún país tiene 0 años promedio de estudio).
-4. Descarté la columna de IMC: su rango `[1.0, 87.3]` era incompatible con la realidad.
-5. Construí dos variables nuevas, **Región** (continente) y **Nivel** (tramos de esperanza de vida).
-6. Audité los saltos raros de un año a otro y encontré errores en la propia fuente (Francia marcando 89 años en 2007, por ejemplo).
+That last step turned out to be the important one. Rather than "fixing" the data by inventing values, I left it as it comes and used the median and quartiles for the summaries, which hold up far better against those anomalies.
 
-Ese último paso terminó siendo clave: en vez de "arreglar" los datos inventando valores, los dejé tal cual vienen y usé mediana y cuartiles para los resúmenes, que aguantan mucho mejor esos valores anómalos.
+## Methods
 
-## Métodos
+Every statistic is computed in the browser itself so the calculation stays transparent, and I checked each one against Python: 146 cross-checks, all identical. What's behind it:
 
-Todos los estadísticos se calculan en el propio navegador para que el cálculo sea transparente, y los contrasté uno por uno contra Python: 146 comprobaciones cruzadas, todas idénticas. Lo que hay detrás:
+- Quartiles by position, with linear interpolation.
+- Interquartile range to measure the spread of the middle 50%.
+- Box-plot fences to flag outliers.
+- Pearson correlation between schooling and life expectancy.
+- Square-root rule to choose the number of histogram bins.
 
-- **Cuartiles** por posición, con interpolación lineal.
-- **Rango intercuartil** para medir la dispersión del 50 % central.
-- **Cercas del diagrama de caja** para detectar valores atípicos.
-- **Correlación de Pearson** entre escolaridad y esperanza de vida.
-- **Regla de la raíz** para elegir el número de clases del histograma.
+## What I learned building it
 
-## Qué aprendí haciéndolo
+More than I expected, and not all of it was statistics:
 
-Más de lo que esperaba, y no todo era estadística:
+- Cleaning data is half the work, or more. The nice charts come at the end; before that you're wrestling with invisible whitespace, zeros that lie, and columns you have to throw away.
+- Questioning the data is part of the method. Catching the WHO's own errors just by staring at odd jumps taught me that descriptive statistics doesn't only summarize, it also audits.
+- The mean misleads when the distribution is skewed. I learned to reach for the median almost by reflex, and to explain why.
+- Writing the formulas by hand in JavaScript, instead of leaving them to a library, forced me to actually understand each measure rather than trusting a black box.
+- Correlation isn't causation, and saying that well, without overstating or underselling it, is harder than it looks.
 
-- **Limpiar datos es la mitad del trabajo (o más).** Los gráficos bonitos vienen al final; antes hay que pelearse con espacios invisibles, ceros que mienten y columnas que hay que tirar a la basura.
-- **Desconfiar es parte del método.** Encontrar los errores de la propia OMS a punta de mirar saltos raros me enseñó que la estadística descriptiva no solo resume: también audita.
-- **La media engaña cuando la distribución es asimétrica.** Aprendí a preferir la mediana casi por reflejo, y a explicar *por qué*.
-- **Calcular las fórmulas a mano en JavaScript**, en vez de dejárselo a una librería, me obligó a entender de verdad cada medida en lugar de confiar en una caja negra.
-- **Correlación no es causa**, y decirlo bien (sin exagerar ni quedarse corto) es más difícil de lo que parece.
-
-## Cómo está armado
+## How it's built
 
 ```
 proyecto-estadistica/
-├── index.html              # La página y todas sus secciones
+├── index.html                     # The page and all its sections
 ├── css/
-│   └── styles.css          # Estilos (la paleta vive en :root)
+│   └── styles.css                 # Styles (the palette lives in :root)
 ├── js/
-│   ├── data.js             # Datos ya limpios, listos para graficar
-│   ├── stats.js            # Las fórmulas estadísticas, escritas a mano
-│   └── app.js              # Dibuja los gráficos y maneja la interacción
+│   ├── data.js                    # Clean data, ready to plot
+│   ├── stats.js                   # The statistical formulas, written by hand
+│   └── app.js                     # Draws the charts and handles interaction
 ├── data/
-│   ├── Life_Expectancy_Data.csv   # La base original
-│   └── clean.csv           # La base ya limpia
+│   ├── Life_Expectancy_Data.csv   # The original dataset
+│   └── clean.csv                  # The cleaned dataset
 └── scripts/
-    └── preparar_datos.py   # El proceso de limpieza, reproducible
+    └── preparar_datos.py          # The cleaning process, reproducible
 ```
 
-Hecho con HTML, CSS y JavaScript puro. Los gráficos usan [Plotly.js](https://plotly.com/javascript/) y las fórmulas se renderizan con [KaTeX](https://katex.org/); la preparación de datos es Python con pandas y NumPy.
+Built with plain HTML, CSS, and JavaScript. The charts use [Plotly.js](https://plotly.com/javascript/) and the formulas render with [KaTeX](https://katex.org/); the data prep is Python with pandas and NumPy.
 
-## Quiénes lo hicimos
+## Who made it
 
-Proyecto en grupo para **Estadística I** (PAO I, 2026), con la profesora Katherine Loor Valeriano en ESPOL.
+Group project for Statistics I (PAO I, 2026), with professor Katherine Loor Valeriano at ESPOL.
 
-| Integrante | Correo |
+| Member | Email |
 | --- | --- |
 | Damian Vargas | jacvarga@espol.edu.ec |
 | Frank Piguabe | frapigua@espol.edu.ec |
 | Jorge Enrique | jorenrey@espol.edu.ec |
 
-Los datos son de *Life Expectancy (WHO)* en Kaggle, que a su vez recopila cifras de la OMS y la ONU. Se muestran tal como vienen de la fuente; donde detectamos inconsistencias, lo dejamos anotado en lugar de maquillarlas.
+The data comes from Life Expectancy (WHO) on Kaggle, which in turn pulls figures from the WHO and the UN. It's shown as it comes from the source; where we found inconsistencies, we noted them instead of papering over them.
