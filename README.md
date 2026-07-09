@@ -121,5 +121,6 @@ Proyecto en grupo para **Estadística I** (PAO I, 2026), con la profesora Kather
 | --- | --- |
 | Damian Vargas | jacvarga@espol.edu.ec |
 | Frank Piguabe | frapigua@espol.edu.ec |
+| Jorge Enrique | jorenrey@espol.edu.ec |
 
 Los datos son de *Life Expectancy (WHO)* en Kaggle, que a su vez recopila cifras de la OMS y la ONU. Se muestran tal como vienen de la fuente; donde detectamos inconsistencias, lo dejamos anotado en lugar de maquillarlas.
