@@ -2,7 +2,7 @@
 
 Un visualizador interactivo para explorar la esperanza de vida al nacer de 183 países entre 2000 y 2015. Mueves un año, comparas grupos, pasas el cursor sobre cualquier punto y los datos van contando su historia: quién vive más, cuánto pesa el desarrollo y qué acompaña a una vida larga.
 
-👉 **Míralo funcionando:** https://dvargas-ai.github.io/proyecto-estadistica/
+👉 **Míralo funcionando:** https://dvargas-ai.github.io/life-expectancy-visualizer/
 
 ![Estadística](https://img.shields.io/badge/Estad%C3%ADstica-descriptiva-4c9aff) ![Hecho con](https://img.shields.io/badge/Hecho%20con-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-f9a03c) ![Datos](https://img.shields.io/badge/Datos-OMS%20%C2%B7%20ONU-brightgreen)
 
